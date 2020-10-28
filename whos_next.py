@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from time import sleep
+import base64
 import yaml
 import random
 import sys
@@ -26,6 +27,7 @@ def generate_member():
         sys.exit(0)
     member = members.pop(random.randrange(len(members)))
     print(f"Go {member.name}!\n")
+
     webbrowser.open(member.url)    
 
 from_console = "go"

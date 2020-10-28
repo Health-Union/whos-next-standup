@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<div>
+<span id="time">00:00</span>
+GO <span id="member-name"></span>!
+<img id="member-image" src=""/>
+<button id="next-member">Next</button>
+</div>
+<script>
+// https://github.com/coolaj86/knuth-shuffle
+function shuffle(array) {
+  let currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+var members = shuffle([
+    {"name": "Dylan",
+     "url": "https://s3-media0.fl.yelpcdn.com/bphoto/ha7LQhWak54SqpcWNKtQ4Q/l.jpg"},
+    {"name": "Chris",
+     "url": "https://s3-media0.fl.yelpcdn.com/bphoto/B5GWVHsTasCent640lsagw/l.jpg"}
+])
+
+console.log(members)
+
+window.onload = function() {
+    var countdownDuration = 60
+    for (x=0; x < members.length; x++) {
+        var timeLeft = countdownDuration
+        console.log(members[x].name)
+        document.getElementById("member-name").textContent = members[x].name;
+        document.getElementById("member-image").src = members[x].url;
+
+        function pad(val){
+            return val < 10 ? "0" + val : val; 
+        }
+
+        var reduceTime = function(time){
+            document.getElementById("next-member").onclick = function(){time = 0};
+            setTimeout(function(){
+                if (time < 1){ return };
+                min = pad(parseInt(time / 60, 10))
+                sec = pad(parseInt(time % 60, 10))
+                document.getElementById("time").textContent = min + ":" + sec;
+                --time
+                return reduceTime(time)
+            }, 1000)
+        }
+        return members
+        return reduceTime(timeLeft)
+}};
+</script>
